@@ -3,9 +3,9 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.python.keras.models import Sequential
 from tensorflow.keras.callbacks import ModelCheckpoint as ChPt
 
-with open('./x_train.pickle', 'rb') as f:
+with open('./temp/x_train.pickle', 'rb') as f:
     x_train = pickle.load( f)
-with open('./y_train.pickle', 'rb') as f:
+with open('./temp/y_train.pickle', 'rb') as f:
     y_train = pickle.load( f)
     
 model = Sequential([
@@ -18,14 +18,14 @@ model.compile(loss='mse', optimizer=Adam(learning_rate=0.00002),metrics=['accura
 
 #print(model.summary())   
  
-best_w=ChPt('./fcn_best.h5',
+best_w=ChPt('./net/fcn_best.h5',
             monitor='val_accuracy',
             verbose=1,
             save_best_only=True,
             save_weights_only=True,
             mode='auto',
             save_freq='epoch')
-last_w=ChPt('./fcn_last.h5',
+last_w=ChPt('./net/fcn_last.h5',
             monitor='val_accuracy',
             verbose=1,
             save_best_only=False,
