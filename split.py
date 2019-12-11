@@ -7,7 +7,7 @@ from tensorflow.keras.preprocessing import image as TFi
 
 
 path = './pic/'
-temp_path = 'temp.bmp'
+temp_path = './temp/temp.bmp'
 l = 64 
 s = 32
 x_train = []
@@ -54,7 +54,7 @@ x_train = x_train/255
 y_train = y_train/255
 print(x_train.shape)
 print(y_train.shape)
-with open('./x_train.pickle', 'wb') as f:
+with open('./temp/x_train.pickle', 'wb') as f:
     pickle.dump(x_train, f)
-with open('./y_train.pickle', 'wb') as f:
+with open('./temp/y_train.pickle', 'wb') as f:
     pickle.dump(y_train, f)
