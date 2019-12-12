@@ -1,10 +1,11 @@
 #! /usr/bin/python3
 
-import argparse
 import sys
+import argparse
 from PIL import Image as pil_image
 import typing
 import base64
+import csv
 
 
 RESIZE_METHODS = {
@@ -69,6 +70,8 @@ def main(argv: list = None):
     resize_method = RESIZE_METHODS.get(args.resize_method.upper(), None)
     assert resize_method is not None, f'Wrong resize method: {args.resize_method}'
 
+    out = csv.writer(args.outfile, delimiter=args.delimiter)
+
     img = pil_image.open(args.infile)
     original_image_size = img.size
     k = args.big_size / args.small_size
@@ -79,15 +82,14 @@ def main(argv: list = None):
         split_to_tiles(img, args.big_size),
         split_to_tiles(img_small, args.small_size)
     ):
-        line = (
-            f'{args.infile.name}{args.delimiter}'
-            f'{args.big_size}{args.delimiter}'
-            f'{args.small_size}{args.delimiter}'
-            f'{to_string(orig_tile.tobytes())}{args.delimiter}'
-            f'{to_string(small_tile.tobytes())}\n'
-        )
         try:
-            args.outfile.write(line)
+            out.writerow((
+                args.infile.name,
+                args.big_size,
+                args.small_size,
+                to_string(orig_tile.tobytes()),
+                to_string(small_tile.tobytes()),
+            ))
         except BrokenPipeError:
             sys.exit(1)
 
