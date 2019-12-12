@@ -49,14 +49,15 @@ def main(argv: list = None):
 
     inp = csv.reader(args.infile, delimiter=args.delimiter)
 
-    for filename, size_big, size_small, tile_big, tile_small in inp:
+    for i, (filename, size_big, size_small, tile_big, tile_small) in enumerate(inp):
         size_big = int(size_big)
         size_small = int(size_small)
 
         tile_big = tile_from_string(tile_big, size_big)
         tile_small = tile_from_string(tile_small, size_small)
 
-        print('\n', filename, '\n', tile_small, file=args.outfile)
+        print(i, filename, file=args.outfile)
+        # print(tile_small, file=args.outfile)
         # TODO: Make something with tiles
 
 
